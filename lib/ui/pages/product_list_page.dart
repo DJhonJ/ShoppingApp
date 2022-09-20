@@ -5,18 +5,13 @@ import '../../domain/product.dart';
 import '../Widgets/banner.dart';
 import '../controllers/shopping_controller.dart';
 
-class ProductList extends StatefulWidget {
-  const ProductList({Key? key}) : super(key: key);
-
-  @override
-  State<ProductList> createState() => _ProductListState();
-}
-
-class _ProductListState extends State<ProductList> {
-  ShoppingController shoppingController = Get.find();
+class ProductListPage extends GetView<ShoppingController> {
+  const ProductListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Product product;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -24,17 +19,17 @@ class _ProductListState extends State<ProductList> {
             Stack(
               children: [const CustomBanner(50), customAppBar()],
             ),
-            // TODO
-            // aquí debemos rodear el widget Expanded en un Obx para
-            // observar los cambios en la lista de entries del shoppingController
-            Expanded(
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: shoppingController.entries.length,
-                  itemBuilder: (context, index) {
-                    return _row(shoppingController.entries[index], index);
-                  }),
-            )
+            Obx(() {
+              return Expanded(
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: controller.products.length,
+                    itemBuilder: (context, index) {
+                      product = controller.products[index];
+                      return _row(controller.products[index], index);
+                    }),
+              );
+            })
           ],
         ),
       ),
@@ -60,10 +55,10 @@ class _ProductListState extends State<ProductList> {
   }
 
   Widget _row(Product product, int index) {
-    return _card(product);
+    return _card(product, index);
   }
 
-  Widget _card(Product product) {
+  Widget _card(Product product, int index) {
     return Card(
       margin: const EdgeInsets.all(4.0),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
@@ -73,18 +68,12 @@ class _ProductListState extends State<ProductList> {
           children: [
             IconButton(
                 onPressed: () {
-                  // TODO
-                  // aquí debemos llamar al método del controlador que
-                  // incrementa el número de unidades del producto
-                  // pasandole el product.id
+                  controller.agregarProducto(controller.products[index].id);
                 },
                 icon: const Icon(Icons.arrow_upward)),
             IconButton(
                 onPressed: () {
-                  // TODO
-                  // aquí debemos llamar al método del controlador que
-                  // disminuye el número de unidades del producto
-                  // pasandole el product.id
+                  controller.quitarProducto(controller.products[index].id);
                 },
                 icon: const Icon(Icons.arrow_downward))
           ],
@@ -97,7 +86,7 @@ class _ProductListState extends State<ProductList> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(product.quantity.toString()),
+              child: Text(controller.products[index].quantity.toString()),
             ),
           ],
         )

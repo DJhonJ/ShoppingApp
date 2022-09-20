@@ -2,43 +2,48 @@ import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 
 import '../../domain/product.dart';
+import '../../usecases/calcular_total_usecase.dart';
+import '../../usecases/cambiar_cantidad_producto_usecase.dart';
 
 class ShoppingController extends GetxController {
-  // lista de productos
-  var entries = <Product>[].obs;
-  // el valor total de la compra
-  var total = 0.obs;
+  final RxList<Product> _products = <Product>[].obs; // lista de productos
+  final RxInt _total = 0.obs; // el valor total de la compra
+
+  int get total  => _total.value;
+  List<Product> get products => _products.value;
 
   @override
   void onInit() {
     super.onInit();
     // los dos elementos que vamos a tener en la tienda
-    entries.add(Product(0, "Toy car", 10));
-    entries.add(Product(1, "Toy house", 20));
+    products.add(Product(1, "Toy car", 10));
+    products.add(Product(2, "Toy house", 20));
   }
 
   void calcularTotal() {
-    int newTotal = 0;
-    // TODO
-    // calcular el valor total de los elementos en el carro de compras
-    total.value = newTotal;
+    _total.value = CalcularTotalUseCase.invoke(products);
   }
 
-  agregarProducto(id) {
+  void agregarProducto(int id) {
     logInfo('agregarProducto $id');
-    // TODO
-    // Encontrar el elemento usando el id, revisar el método firstWhere de la lista
-    // después obtener el index de ese elemento, revisar el método indexOf de la lista
-    // después hacer el incremento en la cantidad
-    // finalmente actualizar entries usando el indice y el elemento actualizado
-    calcularTotal();
+
+    _change(id, true);
   }
 
-  quitarProducto(id) {
+  void quitarProducto(int id) {
     logInfo('quitarProducto $id');
-    // TODO
-    // similar a agregarProducto
-    // validar cuando la cantidad es igual a cero
-    calcularTotal();
+
+    _change(id, false);
+  }
+
+  void _change(int id, bool add) {
+    Map<String, dynamic> result = CambiarCantidadProductoUseCase.invoke(products, id, add);
+
+    if (result["index"] > -1) {
+      int index = result["index"];
+
+      _products[index] = result["product"];
+      calcularTotal();
+    }
   }
 }

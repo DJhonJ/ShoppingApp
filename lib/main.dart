@@ -13,6 +13,8 @@ void main() {
     ),
   );
   // TODO
-  // agregar el ShoppingController al DI de Get
+  // agregar el ShoppingController al DI(dependency injection) de Get
+
+  Get.put<ShoppingController>(ShoppingController());
   runApp(const MyApp());
 }

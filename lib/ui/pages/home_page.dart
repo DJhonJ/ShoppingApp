@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../Widgets/banner.dart';
 import '../Widgets/cart_total.dart';
-import 'product_list.dart';
+import 'product_list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -44,8 +45,7 @@ class HomePage extends StatelessWidget {
       children: const [
         CustomBanner(200),
         CircleAvatar(
-          backgroundImage:
-              NetworkImage("https://randomuser.me/api/portraits/men/75.jpg"),
+          backgroundImage: NetworkImage("https://randomuser.me/api/portraits/men/75.jpg"),
           radius: 60.0,
         )
       ],
@@ -59,9 +59,10 @@ class HomePage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
-            onTap: () => Get.to(() => ProductList(),
+            onTap: () => Get.to(() => const ProductListPage(),
                 transition: Transition.circularReveal,
-                duration: const Duration(seconds: 1)),
+                duration: const Duration(seconds: 1)
+            ),
             child: const Icon(
               Icons.shopping_cart,
               size: 30,

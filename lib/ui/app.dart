@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'app_theme/app_theme.dart';
 import 'pages/home_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -10,9 +12,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Shopping cart',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.theme,
       home: const Scaffold(
         body: HomePage(),
       ),
