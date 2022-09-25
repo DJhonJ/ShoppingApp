@@ -13,9 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Shopping cart',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: const Scaffold(
-        body: HomePage(),
-      ),
+      home: const HomePage(),
     );
   }
 }

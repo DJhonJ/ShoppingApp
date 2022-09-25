@@ -1,6 +1,6 @@
 import '../domain/product.dart';
 
-class CalcularTotalUseCase {
+class CalculateTotalUseCase {
   static int invoke(List<Product> products) {
     int total = 0;
 

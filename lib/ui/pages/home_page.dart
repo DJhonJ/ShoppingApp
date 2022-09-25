@@ -1,76 +1,59 @@
+import 'package:f_shopping_app_r2_template/ui/pages/product_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Widgets/banner.dart';
-import '../Widgets/cart_total.dart';
-import 'product_list_page.dart';
+import '../widgets/shopping_cart.dart';
+import '../../domain/products.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(children: [
-      Stack(
-        children: [buildProfileImage(), customAppBar()],
-      ),
-      const SizedBox(
-        height: 60,
-      ),
-      const Text("Brad Wilson",
-          style: TextStyle(
-              fontSize: 25.0,
-              color: Colors.blueGrey,
-              letterSpacing: 2.0,
-              fontWeight: FontWeight.w400)),
-      const SizedBox(
-        height: 20,
-      ),
-      const Text(
-        "Kilcoole, Waterford",
-        style: TextStyle(
-            fontSize: 18.0,
-            color: Colors.black45,
-            letterSpacing: 2.0,
-            fontWeight: FontWeight.w300),
-      ),
-      CartTotal()
-    ]));
-  }
-
-  Widget buildProfileImage() {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: const [
-        CustomBanner(200),
-        CircleAvatar(
-          backgroundImage: NetworkImage("https://randomuser.me/api/portraits/men/75.jpg"),
-          radius: 60.0,
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          title: const Text("Super Market"),
+          actions: const [ShoppingCart()],
+        ),
+        body: SafeArea(
+            child: Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10.0),
+                      child: const Text("¿Qué tipo de producto deseas?"),
+                    ),
+                    Flexible(
+                      child: GridView.builder(
+                          itemCount: type_products.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1.8,
+                              crossAxisSpacing: 10.0,
+                                mainAxisSpacing: 10.0
+                          ),
+                          itemBuilder: (_, index) {
+                            return GestureDetector(
+                              onTap: () => Get.to(() => ProductListPage(typeProduct: type_products[index])),
+                              child: Card(
+                                  elevation: 0.6,
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                      alignment: Alignment.center,
+                                      child: Text(type_products[index].name, textAlign: TextAlign.center)
+                                  )
+                              )
+                            );
+                          }),
+                    )
+                  ],
+                )
+            )
         )
-      ],
-    );
-  }
-
-  Widget customAppBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () => Get.to(() => const ProductListPage(),
-                transition: Transition.circularReveal,
-                duration: const Duration(seconds: 1)
-            ),
-            child: const Icon(
-              Icons.shopping_cart,
-              size: 30,
-              color: Colors.white,
-            ),
-          ),
-        )
-      ],
     );
   }
 }

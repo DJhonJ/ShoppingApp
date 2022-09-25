@@ -9,3 +9,6 @@ El siguiente es un demo de la interfaz a la que se debe llegar (funcionalidades 
 Solución:
 
 https://github.com/MisionTIC4b/f_shopping_app
+
+
+https://esflutter.dev/docs/cookbook/lists/grid-lists

@@ -12,8 +12,6 @@ void main() {
       showColors: true,
     ),
   );
-  // TODO
-  // agregar el ShoppingController al DI(dependency injection) de Get
 
   Get.put<ShoppingController>(ShoppingController());
   runApp(const MyApp());

@@ -1,49 +1,80 @@
+import 'package:f_shopping_app_r2_template/usecases/count_quantity_usecase.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 
+import '../../domain/products.dart';
 import '../../domain/product.dart';
-import '../../usecases/calcular_total_usecase.dart';
-import '../../usecases/cambiar_cantidad_producto_usecase.dart';
+import '../../usecases/calculate_total_usecase.dart';
 
 class ShoppingController extends GetxController {
-  final RxList<Product> _products = <Product>[].obs; // lista de productos
-  final RxInt _total = 0.obs; // el valor total de la compra
+  final RxList<Product> _products = <Product>[].obs;//los productos actuales
+  final RxList<Product> _productsSelected = <Product>[].obs;
+  final RxInt _total = 0.obs;
+  final RxInt _quantityProducts = 0.obs;
 
-  int get total  => _total.value;
   List<Product> get products => _products.value;
+  List<Product> get productsSelected => _productsSelected.value;
+  int get total  => _total.value;
+  int get quantityProducts => _quantityProducts.value;
 
-  @override
-  void onInit() {
-    super.onInit();
-    // los dos elementos que vamos a tener en la tienda
-    products.add(Product(1, "Toy car", 10));
-    products.add(Product(2, "Toy house", 20));
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   // los dos elementos que vamos a tener en la tienda
+  //   _products.value = products_domain;
+  // }
+
+  void onLoadProducts(int typeProductId) {
+    _products.value = products_domain.where((product) => product.typeProductId == typeProductId).toList();
   }
 
-  void calcularTotal() {
-    _total.value = CalcularTotalUseCase.invoke(products);
+  void calculateTotal() {
+    _total.value = CalculateTotalUseCase.invoke(_productsSelected);
+    _quantityProducts.value = CountQuantityUseCase.invoke(_productsSelected);
   }
 
-  void agregarProducto(int id) {
-    logInfo('agregarProducto $id');
+  void addProduct(int id) {
+    logInfo('addProduct $id');
 
     _change(id, true);
   }
 
-  void quitarProducto(int id) {
-    logInfo('quitarProducto $id');
+  void removeProduct(int id) {
+    logInfo('removeProduct $id');
 
     _change(id, false);
   }
 
+  void reset() {
+    _productsSelected.clear();
+    _total.value = 0;
+    _quantityProducts.value = 0;
+  }
+
   void _change(int id, bool add) {
-    Map<String, dynamic> result = CambiarCantidadProductoUseCase.invoke(products, id, add);
+    Product product = products.firstWhere((element) => element.id == id, orElse: () => Product(-1, "", 0, 0));
 
-    if (result["index"] > -1) {
-      int index = result["index"];
+    if (product.id != -1) {
+      if (add) {
+        product.quantity += 1;
+      } else {
+        if (product.quantity >= 0) {
+          product.quantity -= 1;
+        }
+      }
 
-      _products[index] = result["product"];
-      calcularTotal();
+      int index = _productsSelected.indexOf(product);
+      if (_productsSelected.isNotEmpty && _productsSelected.where((p) => p.id == product.id).isNotEmpty) {
+        _productsSelected[index] = product;
+      } else {
+        _productsSelected.add(product);
+      }
+
+      if (product.quantity == 0) {
+        _productsSelected.removeAt(index);
+      }
+
+      calculateTotal();
     }
   }
 }
