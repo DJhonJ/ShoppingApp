@@ -49,10 +49,19 @@ class ShoppingController extends GetxController {
     _productsSelected.clear();
     _total.value = 0;
     _quantityProducts.value = 0;
+
+    for(int i = 0; i < products.length; i++) {
+      _products.value[i].quantity = 0;
+    }
   }
 
+
   void _change(int id, bool add) {
-    Product product = products.firstWhere((element) => element.id == id, orElse: () => Product(-1, "", 0, 0));
+    Product product = productsSelected.firstWhere((element) => element.id == id, orElse: () => Product(-1, "", 0, 0));
+
+    if (product.id == -1) {
+      product = products.firstWhere((element) => element.id == id, orElse: () => Product(-1, "", 0, 0));
+    }
 
     if (product.id != -1) {
       if (add) {

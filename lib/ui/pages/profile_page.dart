@@ -27,10 +27,10 @@ class ProfilePage extends GetView<ShoppingController> {
                     'Total \$ ${controller.total}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 23.0,
                         color: Colors.blueGrey,
                         letterSpacing: 2.0,
-                        fontWeight: FontWeight.w400),
+                        fontWeight: FontWeight.bold),
                   )),
               Expanded(
                   child: ListView.separated(
@@ -66,8 +66,7 @@ class ProfilePage extends GetView<ShoppingController> {
             Flexible(
                 flex: 1,
                 child: IconButton(
-                    onPressed: () => controller
-                        .addProduct(controller.productsSelected[index].id),
+                    onPressed: () => controller.addProduct(controller.productsSelected[index].id),
                     icon: const Icon(Icons.add))),
             Flexible(
                 flex: 1,
@@ -76,8 +75,7 @@ class ProfilePage extends GetView<ShoppingController> {
             Flexible(
                 flex: 1,
                 child: IconButton(
-                  onPressed: () => controller
-                      .removeProduct(controller.productsSelected[index].id),
+                  onPressed: () => controller.removeProduct(controller.productsSelected[index].id),
                   icon: const Icon(Icons.remove),
                 ))
           ],

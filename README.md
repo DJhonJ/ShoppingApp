@@ -1,14 +1,14 @@
-Proyecto base para el segundo reto
+# Reto #2 Shopping app
+Aplicativo para la compra de productos en un supermercado.
 
-El código incluye comentarios que explican la estructura del proyecto y los puntos en los que se tiene que trabajar están marcados con un TODO.
+### Cambios
+Se realizó un nuevo cambio en el diseño y se agregaron tipos de productos.
 
-El siguiente es un demo de la interfaz a la que se debe llegar (funcionalidades adicionales o mejoras a la interfaz son permitidas):
+### Demo
+El siguiente enlace contiene un video de la aplicación en ejecución.
 
-![shoppingApp](https://user-images.githubusercontent.com/4458129/173839525-218900ed-9bcd-4f6f-9158-0b02dd9d7707.gif)
+https://drive.google.com/drive/u/0/folders/1CKs65BYDBdVcJWSAc7CTXXGhiDua6SL1
 
-Solución:
-
-https://github.com/MisionTIC4b/f_shopping_app
-
-
-https://esflutter.dev/docs/cookbook/lists/grid-lists
+#### Realizado por Grupo 6
+##### Integrantes
+- Jhon Jairo Diaz Matinez
